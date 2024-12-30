@@ -17,7 +17,7 @@ function SessionNotes() {
 
     const createNotes = async (req, res) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/session', {
+            const response = await axios.post('https://project-rniz.onrender.com/api/session', {
                 appointmentId,
                 notes, ClientName, ClientAge, ClientAddress, ClientGender, ClientEmail, ClientPhone
             }, {

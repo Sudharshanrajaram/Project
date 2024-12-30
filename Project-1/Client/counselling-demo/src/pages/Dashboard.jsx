@@ -21,7 +21,7 @@ const Dashboard = () => {
 
   const getUser = async () => {
     try{
-      const res = await axios.get('http://localhost:5000/api/auth/profile', {
+      const res = await axios.get('https://project-rniz.onrender.com/api/auth/profile', {
         headers: {
           Authorization: localStorage.getItem('token')
         }
@@ -35,7 +35,7 @@ const Dashboard = () => {
     }
     try {
       const id = localStorage.getItem('userId');
-      const response = await axios.get(`http://localhost:5000/api/appointments/${id}`, {
+      const response = await axios.get(`https://project-rniz.onrender.com/api/appointments/${id}`, {
         headers: {
           Authorization: localStorage.getItem('token')
         }

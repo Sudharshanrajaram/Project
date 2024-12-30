@@ -11,7 +11,7 @@ function Booking() {
   
     const getUser = async () => {
       try{
-          const res = await axios.get('http://localhost:5000/api/counselor/booked', {
+          const res = await axios.get('https://project-rniz.onrender.com/api/counselor/booked', {
             headers: {
               Authorization: localStorage.getItem('token')
             }
@@ -26,7 +26,7 @@ function Booking() {
           console.log(err);
         }
         try{
-          const res = await axios.get('http://localhost:5000/api/counselor/link', {
+          const res = await axios.get('https://project-rniz.onrender.com/api/counselor/link', {
             headers: {
               Authorization: localStorage.getItem('token')
             }

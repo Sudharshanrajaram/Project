@@ -8,7 +8,7 @@ import { message } from "antd";
 
 const ChatContainer = () => {
   const [user, setUser] = useState(localStorage.getItem("chatUser"));
-  const socketio = socketIOClient("http://localhost:5000");
+  const socketio = socketIOClient("https://project-rniz.onrender.com");
   const [chats, setChats] = useState([]);
 
   useEffect(() => {

@@ -9,7 +9,7 @@ function GetSessionNotes() {
     const getNotes = async (req,res) => {
         console.log(appointmentId)
         try {
-                const response = await axios.get(`http://localhost:5000/api/session/getSession/${appointmentId}`, {
+                const response = await axios.get(`https://project-rniz.onrender.com/api/session/getSession/${appointmentId}`, {
                     headers: {
                         Authorization: localStorage.getItem('token')
                     }

@@ -20,7 +20,7 @@ const VideoCall = () => {
     }
 
     setError('');
-    const response = await axios.post('http://localhost:5000/api/meet/generate-jwt', {
+    const response = await axios.post('https://project-rniz.onrender.com/api/meet/generate-jwt', {
       username: username,
       roomName: roomName,
       counselorName: counselorName,
