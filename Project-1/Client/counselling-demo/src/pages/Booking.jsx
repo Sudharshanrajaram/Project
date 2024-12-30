@@ -69,6 +69,7 @@ function Booking() {
                 <p className="text-gray-800">Time: {appointment.data.time}</p>
                 <p className="text-gray-800">Requested Type: {appointment.data.type}</p>
                 <p className="text-gray-800">Status : {appointment.data.status}</p>
+                <p className="text-gray-800">Client Mail : {appointment.data.email}</p>
                 
               </div>
             ))

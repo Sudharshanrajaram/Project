@@ -22,7 +22,6 @@ const Navbar = () => {
     localStorage.removeItem('role');
     localStorage.removeItem('chatUser');
     localStorage.removeItem('token');
-    localStorage.setItem('');
     navigate('/login');
     window.location.reload();
   };
