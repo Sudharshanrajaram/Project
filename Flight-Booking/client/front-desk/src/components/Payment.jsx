@@ -26,7 +26,7 @@ function CheckoutForm() {
 
     try {
       // Call the backend to create a payment intent
-      const { data } = await axios.post('http://localhost:5001/api/payments/pay', {
+      const { data } = await axios.post('https://project-1-5pcq.onrender.com/api/payments/pay', {
         amount, name
       });
 

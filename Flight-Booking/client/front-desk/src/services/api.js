@@ -3,7 +3,7 @@ import axios from 'axios';
 // Set base URL for the backend 
 
 // Base API URL
-const API_URL = 'http://localhost:5001/api';
+const API_URL = 'https://project-1-5pcq.onrender.com/api';
 
 // Search flights
 export const searchFlights = async (criteria) => {

@@ -15,7 +15,7 @@ const BookingForm = () => {
   // Fetch all available flight details
   const fetchDetails = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/flights/get', {
+      const response = await axios.get('https://project-1-5pcq.onrender.com/api/flights/get', {
         headers: {
           Authorization: localStorage.getItem('token'),
         },
@@ -57,7 +57,7 @@ const BookingForm = () => {
         return;
       }
       const userId = localStorage.getItem('userId');
-      const response = await axios.post('http://localhost:5001/api/bookings', {
+      const response = await axios.post('https://project-1-5pcq.onrender.com/api/bookings', {
         userId, // Assuming user is authenticated
         flightDetails: selectedFlight.flightDetails,
         passengers: passengerDetails,

@@ -20,7 +20,7 @@ const FlightSearchPage = () => {
   const searchFlights = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5001/api/flights/search', {
+      const response = await axios.get('https://project-1-5pcq.onrender.com/api/flights/search', {
         params: { origin, destination, date, minPrice, maxPrice, adults },
       });
       setFlights(response.data.data);
@@ -40,7 +40,7 @@ const FlightSearchPage = () => {
   // Book the selected flight
   const bookFlight = async () => {
     try {
-      const response = await axios.post('http://localhost:5001/api/flights/setFlights', {
+      const response = await axios.post('https://project-1-5pcq.onrender.com/api/flights/setFlights', {
         selectedFlightId,
         userId
       });

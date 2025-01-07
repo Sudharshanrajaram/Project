@@ -13,7 +13,7 @@ const CancelBookingConfirmation = () => {
         const fetchBookingDetails = async () => {
             const bookingId = localStorage.getItem('bookingId');
             try {
-                const response = await axios.get(`http://localhost:5001/api/bookings/${bookingId}`, 
+                const response = await axios.get(`https://project-1-5pcq.onrender.com/api/bookings/${bookingId}`, 
                  {
                     headers: {
                         Authorization: localStorage.getItem('token'),
@@ -34,7 +34,7 @@ const CancelBookingConfirmation = () => {
         setMessage('');
         const bookingId = localStorage.getItem('bookingId');
         try {
-            const response = await axios.delete(`http://localhost:5001/api/bookings/delete/${bookingId}`,  {
+            const response = await axios.delete(`https://project-1-5pcq.onrender.com/api/bookings/delete/${bookingId}`,  {
                 headers: {
                     Authorization: localStorage.getItem('token'),
                 },

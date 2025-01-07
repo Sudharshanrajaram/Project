@@ -18,7 +18,7 @@ const CancelBooking = () => {
         const fetchBookings = async () => {
             const token = localStorage.getItem('token');
             try {
-                const response = await axios.get('http://localhost:5001/api/bookings/history', {
+                const response = await axios.get('https://project-1-5pcq.onrender.com/api/bookings/history', {
                     headers: {
                         Authorization: token,
                     },
