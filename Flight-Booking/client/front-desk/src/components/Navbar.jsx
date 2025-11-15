@@ -1,202 +1,308 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { FaBars, FaTimes, FaSignInAlt, FaHouseUser, FaUserPlus, FaPlaneDeparture, FaTicketAlt, FaHistory, FaSearch, FaFileAlt, FaUserAlt, FaPowerOff } from 'react-icons/fa';
-import logo1 from '../assets/images/logo1.png';
-
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  FaBars,
+  FaTimes,
+  FaSignInAlt,
+  FaHouseUser,
+  FaUserPlus,
+  FaPlaneDeparture,
+  FaTicketAlt,
+  FaHistory,
+  FaSearch,
+  FaFileAlt,
+  FaUserAlt,
+  FaPowerOff,
+} from "react-icons/fa";
+import logo1 from "../assets/images/logo1.png";
 
 const Navbar = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState("");
+  const dropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null);
 
   const isActive = (path) => location.pathname === path;
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setIsDropdownOpen(false);
+  }, [location.pathname]);
 
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  // load user from localStorage (initial)
+  useEffect(() => {
+    const storedUser = localStorage.getItem("User");
+    if (storedUser) setUser(storedUser);
+  }, []);
+
+  // close dropdown if clicked outside
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", handleOutsideClick);
+    return () => document.removeEventListener("pointerdown", handleOutsideClick);
+  }, []);
+
+  const toggleMobileMenu = () => setIsMobileMenuOpen((s) => !s);
+  const toggleDropdown = () => setIsDropdownOpen((s) => !s);
 
   const handleLogout = () => {
-    localStorage.removeItem('User');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token');
-    setUser('');
-    window.location.reload(); // To force the state reset on logout
+    localStorage.removeItem("User");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("token");
+    setUser("");
+    setIsDropdownOpen(false);
+    // prefer history push or set state; reload only if necessary
+    window.location.href = "/"; // navigate to home after logout
   };
 
-  // Sync user state with localStorage on initial load
-  useEffect(() => {
-    const storedUser = localStorage.getItem('User');
-    if (storedUser) {
-      setUser(storedUser);
-    }
-  }, []); // Empty dependency array ensures this runs only on the first render
-
-  // This function can be called after a successful login to update the state
-  
-
   return (
-    <nav className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 shadow-lg">
-      <div className="flex justify-between items-center">
-        {/* Branding */}
-        <div className='flex items-center space-x-3 md:ml-3'>
-        <FaPlaneDeparture size={30} className="text-white" />
-        <Link to="/" className="text-3xl font-extrabold text-indigo-500 rounded-lg   bg-white px-5 py-1 hover:text-yellow-300 transition duration-300">
-          <em>REN AIRLINE</em>
-        </Link>
-        </div>
-        {/* Navigation Links for Desktop */}
-        <div className="space-x-6 hidden sm:flex">
-          {user ? (
-            <>
-              {/* User Dropdown */}
-              <div className="relative">
-                <button onClick={toggleDropdown} className="flex items-center space-x-2 text-lg text-white hover:text-yellow-300 transition duration-300 py-2 px-4 rounded-md">
+    <nav className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Left: Logo / Brand */}
+          <div className="flex items-center gap-3">
+            <FaPlaneDeparture className="text-white w-7 h-7" />
+            <Link
+              to="/"
+              className="flex items-center gap-2 text-lg sm:text-2xl font-extrabold text-indigo-600 bg-white px-3 py-1 rounded-md hover:opacity-95 transition"
+              aria-label="REN AIRLINE Home"
+            >
+              <em>REN AIRLINE</em>
+            </Link>
+          </div>
+
+          {/* Desktop links */}
+          <div className="hidden sm:flex sm:items-center sm:gap-4">
+            <Link
+              to="/flightSearch"
+              className={`flex items-center gap-2 px-3 py-2 rounded-md text-white hover:bg-yellow-300 hover:text-black transition ${isActive(
+                "/flightSearch"
+              )
+                ? "bg-yellow-300 text-black"
+                : ""}`}
+            >
+              <FaSearch />
+              <span className="hidden md:inline">Search</span>
+            </Link>
+
+            <Link
+              to="/booking"
+              className={`flex items-center gap-2 px-3 py-2 rounded-md text-white hover:bg-yellow-300 hover:text-black transition ${isActive(
+                "/booking"
+              )
+                ? "bg-yellow-300 text-black"
+                : ""}`}
+            >
+              <FaTicketAlt />
+              <span className="hidden md:inline">Booking</span>
+            </Link>
+
+            <Link
+              to="/getBooking"
+              className={`flex items-center gap-2 px-3 py-2 rounded-md text-white hover:bg-yellow-300 hover:text-black transition ${isActive(
+                "/getBooking"
+              )
+                ? "bg-yellow-300 text-black"
+                : ""}`}
+            >
+              <FaHistory />
+              <span className="hidden md:inline">History</span>
+            </Link>
+
+            <Link
+              to="/report"
+              className={`flex items-center gap-2 px-3 py-2 rounded-md text-white hover:bg-yellow-300 hover:text-black transition ${isActive(
+                "/report"
+              )
+                ? "bg-yellow-300 text-black"
+                : ""}`}
+            >
+              <FaFileAlt />
+              <span className="hidden md:inline">Reports</span>
+            </Link>
+
+            {/* Auth area */}
+            {user ? (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={toggleDropdown}
+                  className="flex items-center gap-2 px-3 py-2 rounded-md text-white hover:bg-white/10 transition"
+                  aria-haspopup="true"
+                  aria-expanded={isDropdownOpen}
+                >
                   <FaUserAlt />
-                  <span>{user}</span>
+                  <span className="hidden md:inline">{user}</span>
                 </button>
+
                 {isDropdownOpen && (
-                  <div className="absolute z-10 right-0 mt-2 bg-indigo-800 rounded-lg shadow-lg w-40">
+                  <div className="absolute right-0 mt-2 w-44 bg-indigo-800 rounded-md shadow-lg overflow-hidden z-30">
+                    <Link
+                      to="/"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-white hover:bg-white/10"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      <FaHouseUser />
+                      Home
+                    </Link>
                     <button
                       onClick={handleLogout}
-                      className="block text-lg py-2 px-4 text-white hover:bg-yellow-300 hover:text-black w-full text-left"
+                      className="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-white hover:bg-white/10"
                     >
-                      <FaPowerOff className="mr-2" />
+                      <FaPowerOff />
                       Logout
                     </button>
-                    <Link to='/' className="block text-lg py-2 px-4 text-white hover:bg-yellow-300 hover:text-black w-full text-left">
-                    <FaHouseUser className="mr-2" />
-                    Home</Link>
                   </div>
                 )}
               </div>
-            </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className={`flex items-center gap-2 px-3 py-2 rounded-md text-white hover:bg-yellow-300 hover:text-black transition ${isActive(
+                    "/login"
+                  )
+                    ? "bg-yellow-300 text-black"
+                    : ""}`}
+                >
+                  <FaSignInAlt />
+                  <span className="hidden md:inline">Login</span>
+                </Link>
+
+                <Link
+                  to="/register"
+                  className={`flex items-center gap-2 px-3 py-2 rounded-md text-white hover:bg-yellow-300 hover:text-black transition ${isActive(
+                    "/register"
+                  )
+                    ? "bg-yellow-300 text-black"
+                    : ""}`}
+                >
+                  <FaUserPlus />
+                  <span className="hidden md:inline">Register</span>
+                </Link>
+              </>
+            )}
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="sm:hidden flex items-center">
+            <button
+              onClick={toggleMobileMenu}
+              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/10 focus:outline-none"
+              aria-expanded={isMobileMenuOpen}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu (collapsible) */}
+      <div
+        ref={mobileMenuRef}
+        className={`sm:hidden bg-indigo-800 border-t border-indigo-700 transition-all ${
+          isMobileMenuOpen ? "max-h-screen py-4" : "max-h-0 overflow-hidden"
+        }`}
+      >
+        <div className="px-4 space-y-2">
+          {/* top area: show user or auth links */}
+          {user ? (
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3 text-white">
+                <FaUserAlt />
+                <span className="font-medium">{user}</span>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="px-3 py-1 bg-yellow-300 text-black rounded-md"
+              >
+                Logout
+              </button>
+            </div>
           ) : (
-            <>
+            <div className="flex gap-2">
               <Link
                 to="/login"
-                className={`text-lg flex items-center ${isActive('/login') ? 'text-yellow-300' : 'text-white'} hover:text-white transition duration-300 py-2 px-4 rounded-md hover:bg-yellow-300 hover:text-white`}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex-1 text-center px-3 py-2 bg-white text-blue-700 rounded-md"
               >
-                <FaSignInAlt className="mr-2" />
                 Login
               </Link>
               <Link
                 to="/register"
-                className={`text-lg flex items-center ${isActive('/register') ? 'text-yellow-300' : 'text-white'} hover:text-white transition duration-300 py-2 px-4 rounded-md hover:bg-yellow-300 hover:text-white`}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex-1 text-center px-3 py-2 border border-white text-white rounded-md"
               >
-                <FaUserPlus className="mr-2" />
                 Register
               </Link>
-            </>
+            </div>
           )}
 
-          <Link
-            to="/booking"
-            className={`text-lg flex items-center ${isActive('/booking') ? 'text-yellow-300' : 'text-white'} hover:text-white transition duration-300 py-2 px-4 rounded-md hover:bg-yellow-300 hover:text-white`}
-          >
-            <FaTicketAlt className="mr-2" />
-            Booking
-          </Link>
-          <Link
-            to="/getBooking"
-            className={`text-lg flex items-center ${isActive('/getBooking') ? 'text-yellow-300' : 'text-white'} hover:text-white transition duration-300 py-2 px-4 rounded-md hover:bg-yellow-300 hover:text-white`}
-          >
-            <FaHistory className="mr-2" />
-            History
-          </Link>
-          <Link
-            to="/flightSearch"
-            className={`text-lg flex items-center ${isActive('/flightSearch') ? 'text-yellow-300' : 'text-white'} hover:text-white transition duration-300 py-2 px-4 rounded-md hover:bg-yellow-300 hover:text-white`}
-          >
-            <FaSearch className="mr-2" />
-            Search
-          </Link>
-          <Link
-            to="/report"
-            className={`text-lg flex items-center ${isActive('/report') ? 'text-yellow-300' : 'text-white'} hover:text-white transition duration-300 py-2 px-4 rounded-md hover:bg-yellow-300 hover:text-white`}
-          >
-            <FaFileAlt className="mr-2" />
-            Reports
-          </Link>
-        </div>
+          {/* links */}
+          <div className="mt-2 border-t border-indigo-700 pt-3">
+            <Link
+              to="/"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block px-3 py-2 rounded-md text-white hover:bg-white/10 ${isActive("/") ? "bg-white/10" : ""}`}
+            >
+              <div className="flex items-center gap-2">
+                <FaHouseUser />
+                Home
+              </div>
+            </Link>
 
-        {/* Mobile Navbar Toggle */}
-        <div className="sm:hidden flex items-center">
-          <button onClick={toggleMobileMenu} className="text-3xl">
-            {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
-          </button>
-        </div>
-      </div>
+            <Link
+              to="/flightSearch"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block px-3 py-2 rounded-md text-white hover:bg-white/10 ${isActive("/flightSearch") ? "bg-white/10" : ""}`}
+            >
+              <div className="flex items-center gap-2">
+                <FaSearch />
+                Search Flights
+              </div>
+            </Link>
 
-      {/* Mobile Menu */}
-      <div className={`sm:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} mt-4 bg-indigo-800 p-4 rounded-lg shadow-lg transition-all`}>
-        {user ? (
-          <div>
-            <button onClick={handleLogout} className="block text-lg py-2 px-4 text-white hover:bg-yellow-300 hover:text-black w-full text-left">
-              <FaPowerOff className="mr-2" />
-              Logout
-            </button>
+            <Link
+              to="/booking"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block px-3 py-2 rounded-md text-white hover:bg-white/10 ${isActive("/booking") ? "bg-white/10" : ""}`}
+            >
+              <div className="flex items-center gap-2">
+                <FaTicketAlt />
+                Booking
+              </div>
+            </Link>
+
+            <Link
+              to="/getBooking"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block px-3 py-2 rounded-md text-white hover:bg-white/10 ${isActive("/getBooking") ? "bg-white/10" : ""}`}
+            >
+              <div className="flex items-center gap-2">
+                <FaHistory />
+                History
+              </div>
+            </Link>
+
+            <Link
+              to="/report"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`block px-3 py-2 rounded-md text-white hover:bg-white/10 ${isActive("/report") ? "bg-white/10" : ""}`}
+            >
+              <div className="flex items-center gap-2">
+                <FaFileAlt />
+                Reports
+              </div>
+            </Link>
           </div>
-        ) : (
-          <>
-            <Link
-              to="/login"
-              className={`block text-lg py-2 px-4 ${isActive('/login') ? 'text-yellow-300' : 'text-white'} hover:text-yellow-300 transition duration-200 flex items-center`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <FaSignInAlt className="mr-2" />
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className={`block text-lg py-2 px-4 ${isActive('/register') ? 'text-yellow-300' : 'text-white'} hover:text-yellow-300 transition duration-200 flex items-center`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <FaUserPlus className="mr-2" />
-              Register
-            </Link>
-          </>
-        )}
-        <Link
-          to="/"
-          className={`block text-lg py-2 px-4 ${isActive('/') ? 'text-yellow-300' : 'text-white'} hover:text-yellow-300 transition duration-200 flex items-center`}
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          <FaHouseUser className="mr-2" />
-          Home
-        </Link>
-        <Link
-          to="/booking"
-          className={`block text-lg py-2 px-4 ${isActive('/booking') ? 'text-yellow-300' : 'text-white'} hover:text-yellow-300 transition duration-200 flex items-center`}
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          <FaTicketAlt className="mr-2" />
-          Booking
-        </Link>
-        <Link
-          to="/getBooking"
-          className={`block text-lg py-2 px-4 ${isActive('/getBooking') ? 'text-yellow-300' : 'text-white'} hover:text-yellow-300 transition duration-200 flex items-center`}
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          <FaHistory className="mr-2" />
-          History
-        </Link>
-        <Link
-          to="/flightSearch"
-          className={`block text-lg py-2 px-4 ${isActive('/flightSearch') ? 'text-yellow-300' : 'text-white'} hover:text-yellow-300 transition duration-200 flex items-center`}
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          <FaSearch className="mr-2" />
-          Search
-        </Link>
-        <Link
-          to="/report"
-          className={`block text-lg py-2 px-4 ${isActive('/report') ? 'text-yellow-300' : 'text-white'} hover:text-yellow-300 transition duration-200 flex items-center`}
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          <FaFileAlt className="mr-2" />
-          Reports
-        </Link>
+        </div>
       </div>
     </nav>
   );

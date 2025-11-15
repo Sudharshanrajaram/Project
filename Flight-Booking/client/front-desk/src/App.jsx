@@ -13,29 +13,73 @@ import Confirmation from './components/Confirmation';
 import ReportsDashboard from './components/ReportsDashboard';
 import Payment from './components/Payment';
 import CancelBookingConfirmation from './components/CancelBookingConfirmation';
+import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
-    return (
-        
-            <Router>
-                <UserProvider>
-                <Navbar />
-                <Routes>
-                    <Route exact path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/flightSearch" element={<FlightSearch />} />
-                    <Route path="/booking" element={<BookingForm />} />
-                    <Route path="/getBooking" element={<Bookings />} />
-                    <Route path="/print" element={<Confirmation />} />
-                    <Route path="/report" element={<ReportsDashboard />} />
-                    <Route path="/pay" element={<Payment />} />
-                    <Route path="/cancel" element={<CancelBookingConfirmation />} />
-                </Routes>
-                </UserProvider>
-            </Router>
-        
-    );
+  return (
+    <Router>
+      <UserProvider>
+        <Navbar />
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/flightSearch" element={<FlightSearch />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          {/* Protected routes */}
+          <Route
+            path="/booking"
+            element={
+              <PrivateRoute>
+                <BookingForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/getBooking"
+            element={
+              <PrivateRoute>
+                <Bookings />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print"
+            element={
+              <PrivateRoute>
+                <Confirmation />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/report"
+            element={
+              <PrivateRoute>
+                <ReportsDashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/pay"
+            element={
+              <PrivateRoute>
+                <Payment />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/cancel"
+            element={
+              <PrivateRoute>
+                <CancelBookingConfirmation />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </UserProvider>
+    </Router>
+  );
 };
 
 export default App;

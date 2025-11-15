@@ -14,7 +14,7 @@ const VideoCall = () => {
 
   const generateJWT = async(req,res) => {
     if (!username || !roomName) {
-      message.error('Both username and room name are required.');
+      alert.error('Both username and room name are required.');
       setError('Both username and room name are required.');
       return;
     }
@@ -62,7 +62,7 @@ const VideoCall = () => {
       </div>
 
       <div className=" flex flex-col w-60 mt-2">
-        <label className='font-semibold'>Room Name</label>
+        <label className='font-semibold'>Room No</label>
         <input  className='w-full border-2 border-black rounded-md p-2 mt-2'
           type="text"
           id="room"
@@ -71,6 +71,7 @@ const VideoCall = () => {
           onChange={(e) => setRoomName(e.target.value)}
         />
         <label className='font-semibold mt-2' >Counselor Name</label>
+        <p className='font-medium text-red-500'>(i.e : Counselor1, Counselor2)</p>
         <input  className='w-full border-2 border-black rounded-md p-2 mt-2'
           type="text"
           id="room"

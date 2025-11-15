@@ -12,7 +12,6 @@ const BookingForm = () => {
   
   const navigate = useNavigate();
 
-  // Fetch all available flight details
   const fetchDetails = async () => {
     try {
       const response = await axios.get('https://project-1-5pcq.onrender.com/api/flights/get', {
@@ -29,20 +28,17 @@ const BookingForm = () => {
     setPassengerDetails([...passengerDetails, { name: '', age: '' }]);
   };
 
-  // Remove a passenger input field
   const removePassenger = (index) => {
     const updatedPassengers = passengerDetails.filter((_, i) => i !== index);
     setPassengerDetails(updatedPassengers);
   };
 
-  // Handle input changes for passenger name and age
   const handlePassengerChange = (index, field, value) => {
     const updatedPassengers = [...passengerDetails];
     updatedPassengers[index][field] = value;
     setPassengerDetails(updatedPassengers);
   };
 
-  // Handle booking submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedFlight) {
@@ -58,10 +54,10 @@ const BookingForm = () => {
       }
       const userId = localStorage.getItem('userId');
       const response = await axios.post('https://project-1-5pcq.onrender.com/api/bookings', {
-        userId, // Assuming user is authenticated
+        userId, 
         flightDetails: selectedFlight.flightDetails,
         passengers: passengerDetails,
-        noOfPassengers // Pass the passenger details
+        noOfPassengers 
       }, {
         headers: {
           Authorization: localStorage.getItem('token'),

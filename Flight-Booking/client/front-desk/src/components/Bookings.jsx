@@ -14,7 +14,6 @@ const CancelBooking = () => {
     };
 
     useEffect(() => {
-        // Fetch user's bookings when component is mounted
         const fetchBookings = async () => {
             const token = localStorage.getItem('token');
             try {
@@ -41,18 +40,16 @@ const CancelBooking = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {bookings.map((booking) => (
                     <div key={booking._id} className="p-6 bg-white rounded-lg shadow-xl hover:shadow-2xl transition-all ease-in-out transform hover:scale-105">
-                        <h3 className="text-2xl font-semibold text-gray-800 mb-4">{booking.flightDetails.flightNumber}</h3>
+                        <h3 className="text-2xl font-semibold text-gray-800 mb-4">{booking.flightDetail.flightNumber}</h3>
                         <p className="text-gray-600"><strong>Booking ID :</strong> {booking._id}</p>
                         <p className="text-gray-600"><strong>Departure:</strong> {new Date(booking.flightDetails.departureTime).toLocaleString()}</p>
                         <p className="text-gray-600"><strong>Arrival:</strong> {new Date(booking.flightDetails.arrivalTime).toLocaleString()}</p>
                         <p className="text-gray-600"><strong>Price:</strong> ₹{booking.flightDetails.price}</p>
                         
-                        {/* Status indicator with colors */}
                         <p className={`text-lg font-semibold ${booking.status === 'Cancelled' ? 'text-red-600' : 'text-green-600'}`}>
                             <strong>Status:</strong> {booking.status}
                         </p>
 
-                        {/* Display passengers' details */}
                         <div className="mt-4">
                             <h4 className="text-lg font-semibold text-gray-700">Passenger Details</h4>
                             {booking.passengers.map((passenger, index) => (

@@ -68,17 +68,17 @@ const Dashboard = () => {
     <div className='relative '>
       <img src={dash2} alt="images" className=' h-60 w-full md:h-screen md:w-full' />
       <div className='flex '>
-        <div className='absolute  top-20  md:ml-5 flex justify-between px-10 items-center'>
-          <div className='md:h-60 md:top-0 md:w-96 md:bg-white md:absolute md:border md:blur-3xl md:rounded-full md:shadow-2xl'></div>
+        <div className='absolute  top-20 md:mt-10 md:ml-5 flex justify-between px-10 items-center'>
+          <div className='md:h-44 md:top-0 md:w-96 md:bg-white md:absolute md:border md:blur-3xl md:rounded-full md:shadow-2xl'></div>
           <div className='md:w-1/2'>
-            <h1  className='relative  text-green-600  md:leading-tight font-bold md:text-5xl'> <em>We Providing Counselling For Mental Health, Relationship And Other psychological Concerns.</em></h1>
+            <h1  className='relative  text-green-600  md:leading-tight font-bold md:text-4xl'> <em>We Providing Counselling For Mental Health, Relationship And Other psychological Concerns.</em></h1>
               <div className=' mt-5'>
                 <button onClick={()=>{
                  scrollTo({
                   top : 750,
                   behavior: 'smooth'
                  })
-                 }} className='bg-[#E7E8D8] text-xs p-2 md:text-lg md:px-14 md:py-4 rounded-lg md:mt-10 '>Find Counselor</button>
+                 }} className='bg-[#E7E8D8] text-xs p-2 md:text-lg md:px-10 md:py-4 rounded-lg md:mt-10 '>Find Counselor</button>
                 <button onClick={()=>{scrollTo({top : 1800,behavior: 'smooth'})}} className='bg-[#E7E8D8] text-xs p-2 md:text-lg md:px-14 md:py-4 rounded-lg md:mt-10 ml-5 md:ml-10'>Get Booking</button>
               </div>
             </div>
@@ -144,22 +144,18 @@ const Dashboard = () => {
       <div className="mt-10 bg-[#D9EAFD] px-10">
       <div className="p-6  mx-auto bg-[#D9EAFD] rounded ">
         <h2 className="text-3xl font-bold mb-4 text-center">Your Bookings</h2>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
-        <div className=" grid grid-cols-1 md:grid-cols-3 gap-4">
-          {appointments.length > 0 ? (
-            appointments.map((appointment) => (
-              <div key={appointment._id} className="mb-4 p-4 border rounded bg-white shadow-lg px-10 py-10">
-                <p className="text-green-500 font-bold ">Assigned Counselor : <span className='text-gray-800 font-semibold'>{appointment.counselor}</span></p>
-                <p className="font-semibold">Appointment ID: <span className='text-gray-600'>{appointment._id}</span></p>
-                <p className="text-gray-800">Client Name: {appointment.clientName}</p>
-                <p className="text-gray-800">Time: {appointment.time}</p>
-                <p className="text-gray-800">Requested Type: {appointment.type}</p>
-                <p className="text-gray-800">Status : {appointment.status}</p>
+        {error && <div className='text-red-500 mb-4'>{error}</div>}
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+            {appointments.length > 0 ? appointments.map((appointment) => (
+              <div key={appointment._id} className='mb-4 p-4 border rounded bg-white shadow-lg'>
+                <p className='text-green-500 font-bold'>Assigned Counselor: {appointment.counselor}</p>
+                <p>Appointment ID: {appointment._id}</p>
+                <p>Client Name: {appointment.clientName}</p>
+                <p>Time: {appointment.time}</p>
+                <p>Requested Type: {appointment.type}</p>
+                <p>Status: {appointment.status}</p>
               </div>
-            ))
-          ) : (
-            <p>No appointments scheduled.</p>
-          )}
+            )) : <p>No appointments scheduled.</p>}
           </div>
       </div>
     </div>
